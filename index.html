@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Allocation Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Memory Allocation Visualizer</h1>
+            <p>Visualize memory allocation with different strategies and memory models</p>
+        </header>
+
+        <div class="main-content">
+            <div class="control-panel">
+                <h2>Control Panel</h2>
+
+                <div class="memory-type-controls">
+                    <h3>Memory Type</h3>
+                    <div class="btn-group">
+                        <button id="contiguousBtn" class="btn">Contiguous</button>
+                        <button id="pagingBtn" class="btn">Paging</button>
+                        <button id="segmentationBtn" class="btn">Segmentation</button>
+                    </div>
+
+                    <div id="memoryTypeInfo" class="alert alert-info">
+                        <span class="alert-icon"><i class="fas fa-info-circle"></i></span>
+                        <span>Current Mode: <span id="currentMemoryType">Contiguous</span></span>
+                    </div>
+                </div>
+
+                <div class="memory-settings">
+                    <h3>Memory Settings</h3>
+                    <div class="form-group">
+                        <label for="totalMemory">Total Memory (KB):</label>
+                        <input type="number" id="totalMemory" value="1024" min="256" max="8192">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="blockSize">
+                            <span id="blockSizeLabel">Block Size (KB):</span>
+                            <div class="tooltip">
+                                <i class="fas fa-question-circle tooltip-icon"></i>
+                                <span class="tooltip-text" id="blockSizeTooltip">Size of individual memory blocks</span>
+                            </div>
+                        </label>
+                        <input type="number" id="blockSize" value="64" min="16" max="256">
+                    </div>
+
+                    <div id="pageSegmentSettings">
+                        <!-- Dynamic content for page/segment settings will be inserted here -->
+                    </div>
+
+                    <div class="form-group">
+                        <label for="algorithm">Allocation Algorithm:</label>
+                        <select id="algorithm">
+                            <option value="firstFit">First Fit</option>
+                            <option value="bestFit">Best Fit</option>
+                            <option value="worstFit">Worst Fit</option>
+                        </select>
+                    </div>
+
+                    <button id="initMemory" class="btn">Initialize Memory</button>
+                </div>
+
+                <div class="process-controls">
+                    <h3>Process Management</h3>
+                    <div class="form-group">
+                        <label for="processSize">Process Size (KB):</label>
+                        <input type="number" id="processSize" value="128" min="16" max="1024">
+                    </div>
+
+                    <div id="processSegmentForm" style="display: none;">
+                        <!-- Content for segment details will be dynamically created -->
+                    </div>
+
+                    <button id="addProcess" class="btn">Add Process</button>
+                    <button id="randomProcesses" class="btn btn-secondary" style="margin-top: 0.5rem;">Generate Random
+                        Processes</button>
+                </div>
+            </div>
+
+            <div class="visualization-area">
+                <h2>Memory Visualization</h2>
+                <div class="memory-type-badge contiguous" id="memoryTypeBadge">Contiguous Memory</div>
+                <div id="memoryGrid" class="memory-grid"></div>
+                <div class="pagination" id="memoryPagination" style="display: none;"></div>
+            </div>
+
+            <div class="info-panel">
+                <div class="stats-panel">
+                    <h2>Memory Statistics</h2>
+                    <div class="stat-item">
+                        <span>Memory Utilization:</span>
+                        <div class="progress-container">
+                            <div id="utilizationProgress" class="progress-bar"></div>
+                        </div>
+                        <span id="utilizationValue">0%</span>
+                    </div>
+
+                    <div class="stat-item">
+                        <span>Used Memory:</span>
+                        <div class="progress-container">
+                            <div id="usedMemoryProgress" class="progress-bar"></div>
+                        </div>
+                        <span id="usedMemoryValue">0 KB / 0 KB</span>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <p class="stat-label">Active Processes</p>
+                            <p id="activeProcesses" class="stat-value">0</p>
+                        </div>
+                        <div class="stat-box">
+                            <p class="stat-label">Fragmentation</p>
+                            <p id="fragmentation" class="stat-value">0</p>
+                        </div>
+                        <div class="stat-box" id="pagesBox" style="display: none;">
+                            <p class="stat-label">Page Count</p>
+                            <p id="pageCount" class="stat-value">0</p>
+                        </div>
+                        <div class="stat-box" id="segmentsBox" style="display: none;">
+                            <p class="stat-label">Segment Count</p>
+                            <p id="segmentCount" class="stat-value">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="process-list">
+                    <h2>Active Processes</h2>
+                    <ul id="processList"></ul>
+                    <div class="pagination" id="processListPagination" style="display: none;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="memory.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
